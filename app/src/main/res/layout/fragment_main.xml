@@ -1,0 +1,19 @@
+<!--FrameLayout here because the layout only contains one child view.-->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context=".MainActivity$PlaceholderFragment">
+
+    <!--set width and height of ListView to match parent, aka the FrameLayout. This ensures the ListView takes-->
+    <!--up the whole screen as intended. Note that the FrameLayout's width and height are also set
+    to match parent. The parent of the frame layout in fragment_main.xml is activity_main since the fragment this layout
+    defines is contained within the main activity.-->
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/listview_forecast" />
+
+</FrameLayout>
