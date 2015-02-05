@@ -108,6 +108,10 @@ public class ForecastFragment extends Fragment {
     private void updateWeather() {
         FetchWeatherTask weatherTask = new FetchWeatherTask();
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        //the call to getString retrieves the data tied to the key "location". If the data
+        //is for some reason unavailable, we fall back on the default value of 94043 tht we
+        //provide. We shoudln't need the default value though. When we create the setttings
+        //(i.e call On)
         String location = prefs.getString(getString(R.string.pref_location_key),
                 getString(R.string.pref_location_default));
         weatherTask.execute(location);
