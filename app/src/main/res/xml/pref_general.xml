@@ -9,7 +9,9 @@
         android:defaultValue="@string/pref_location_default"
         android:inputType="text"
         android:singleLine="true" />
-
+    <!--"entryValues" are what the list entries are referred to internally. "entries" is what they are displayed-->
+    <!--to the user as. "title" is what is displayed to the user as the name of the setting. "key" is used internally
+    as the key portion of a key-value pair.-->
     <ListPreference
         android:title="@string/pref_units_label"
         android:key="@string/pref_units_key"

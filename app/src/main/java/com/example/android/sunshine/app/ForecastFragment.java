@@ -114,7 +114,8 @@ public class ForecastFragment extends Fragment {
         //(i.e call On)
         String location = prefs.getString(getString(R.string.pref_location_key),
                 getString(R.string.pref_location_default));
-        weatherTask.execute(location);
+        String units = prefs.getString("units","metric");
+        weatherTask.execute(location, units);
     }
 
     @Override
@@ -135,8 +136,32 @@ public class ForecastFragment extends Fragment {
             protected void onPostExecute(String[] result) {
                 if (result != null) {
                     mForecastAdapter.clear();
+                    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                    //what is String x = z,y? If z not available, fall back on y
+                    String units = prefs.getString(getString(R.string.pref_units_key),
+                            getString(R.string.pref_units_metric));
                     //assigns each value in the array to dayForecastStr, adds the value to the ForecastAdapter
                     for(String dayForecastStr : result) {
+                        if (units.equals(getString(R.string.pref_units_imperial))) {
+                            /*Replace metric values with imperial. The Format of the strings we are dealing with are:
+                            * Sat, 7 Feb - Snow - -8/-13
+                            * In the above example we replace -8 and -13 with the correct fareinheit values.
+                            * °C to °F:	Multiply by 9, then divide by 5, then add 32*/
+
+                            //split the forecast string at the '/'
+                             String[] split = dayForecastStr.split("/");
+                            //get lows
+                            int lows = Integer.parseInt(split[1]);
+                            //get highs
+                            int lastWhitespaceIndex = split[0].lastIndexOf(" ");
+                            //lastWhitespaceIndex + 1 because you the result of a call to substring has to be an alphanumeric values, not a whitespace
+                            int highs = Integer.parseInt(split[0].substring(lastWhitespaceIndex + 1));
+                            highs = ((highs * 9) / 5) + 32;
+                            lows = ((lows * 9) / 5) + 32;
+                            //build new Fahenheit forecast string
+                            dayForecastStr = dayForecastStr.substring(0, lastWhitespaceIndex + 1)
+                                    + highs + "/" + lows;
+                        }
                         mForecastAdapter.add(dayForecastStr);
                     }
                     // New data is back from the server.  Hooray!
